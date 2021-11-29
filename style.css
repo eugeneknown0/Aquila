@@ -20,3 +20,20 @@ img {
     width: 100%;
     height: auto;
 }
+
+a {
+    text-decoration: none!important;
+}
+
+.updated:not(.published) {
+    display: none;
+}
+
+.nav-item:hover .dropdown-menu:not(.show) {
+    display: block;
+}
+
+.page-numbers.current > span {
+    background-color: gray;
+    color: white;
+}

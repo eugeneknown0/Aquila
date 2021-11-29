@@ -7,7 +7,6 @@
 
 namespace AQUILA_THEME\Inc;
 
-use Aquila_Theme\Inc\Meta_Box;
 use AQUILA_THEME\Inc\Traits\Singleton;
 
 class AQUILA_THEME {
@@ -22,6 +21,7 @@ class AQUILA_THEME {
         Assets::get_instance();
         Menus::get_instance();
         Meta_Boxes::get_instance();
+        Sidebars::get_instance();
 
         $this->setup_hooks();
     }

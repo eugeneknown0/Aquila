@@ -39,8 +39,9 @@ class Meta_Boxes {
         }
     }
 
-    public function custom_meta_box_html( $post ) {
-        $value = get_post_meta( $post->ID, '_hide_page_title', true );
+    public function custom_meta_box_html( $post_id ) {
+        $value = get_post_meta( $post_id->ID, '_hide_page_title', true );
+        wp_nonce_field( plugin_basename(__FILE__), 'hide_title_meta_nonce' );
         ?>
             <label for='aquila_field'><?php esc_html_e( 'Hide the page title' ); ?></label>
             <select name='aquila_title_field' id='aquila_field' class='postbox'>
@@ -52,7 +53,22 @@ class Meta_Boxes {
     } 
 
     public function save_post_meta_data( $post_id ) {
-        
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+
+        if ( ! isset( $_POST[ 'hide_title_meta_nonce' ] ) || 
+        ! wp_verify_nonce( $_POST[ 'hide_title_meta_nonce' ], plugin_basename(__FILE__) ) ) {
+            return;
+        }
+
+        if ( array_key_exists( 'aquila_title_field', $_POST ) ) {
+            update_post_meta(
+                $post_id,
+                '_hide_page_title',
+                $_POST['aquila_title_field']
+            );
+        }
     }
 }
 
